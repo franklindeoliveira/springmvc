@@ -1,2 +1,2 @@
-Bind request parameter utilizando um bean.
-Acesso ao banco de dados utilizando injeção de dependência.
+- Bind request parameter utilizando bean.
+- Acesso ao banco de dados utilizando injeção de dependência.
