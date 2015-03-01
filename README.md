@@ -2,7 +2,7 @@
 
 1. Bind request parameter
 
-    Descrição...
+    Encapsulando requisições.
 
 2. Injeção de dependência
 
