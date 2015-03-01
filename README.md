@@ -14,7 +14,7 @@
     
 ---
 
-1. Bind request parameter
+1 - Bind request parameter
 
 bind.jsp
 ``` jsp
