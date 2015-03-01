@@ -70,3 +70,28 @@ public class DAO {
 	<version>1.1.0.Final</version>
 </dependency>
 ```
+
+beanvalidation.jsp
+``` jsp
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<html>
+	<body>
+		<h2>Exemplo de bean validation</h2>
+		<form action="beanvalidation">
+			<form:errors path="beanValidation.parametro1"/>
+			Parametro 1 <input name="parametro1" type="text" value="parametro1"/><br/>
+			<form:errors path="beanValidation.parametro2"/>
+			Parametro 2 <input name="parametro2" type="text" value="parametro2"/><br/>
+			Parametro 3 <input name="parametro3" type="text" value="parametro3"/><br/>
+			Parametro 4 
+			<select name="parametro4">
+				<option value="INDEFINIDO">Selecione</option>
+				<option value="UM">1</option>
+				<option value="DOIS">2</option>
+				<option value="TRES">3</option>
+			</select><br/>
+			<input type="submit" />
+		</form>
+	</body>
+</html>
+```
