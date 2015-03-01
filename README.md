@@ -90,12 +90,11 @@ public class Bean {
 				+ "]";
 	}
 }
-
 ```
 
-2. Injeção de dependência
+2 - Injeção de dependência
     
-    spring-context.xml
+spring-context.xml
 ``` xml
     <!-- Configuração do datasource para conexão com o banco de dados -->
 	<bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
@@ -129,9 +128,9 @@ public class DAO {
 	}
 }
 ```
-3. Bean validation
+3 - Bean validation
 
-    pom.xml
+pom.xml
 ``` xml
 <!-- Bean Validation -->
 <dependency>
