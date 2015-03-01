@@ -16,7 +16,82 @@
 
 1. Bind request parameter
 
-    Descrição...
+bind.jsp
+``` jsp
+<html>
+	<body>
+		<h2>Exemplo de bind utilizando um bean</h2>
+		<form action="bind">
+			Parametro 1 <input name="parametro1" type="text" /><br/>
+			Parametro 2 <input name="parametro2" type="text" /><br/>
+			Parametro 3 <input name="parametro3" type="text" /><br/>
+			Parametro 4 
+			<select name="parametro4">
+				<option value="INDEFINIDO">Selecione</option>
+				<option value="UM">1</option>
+				<option value="DOIS">2</option>
+				<option value="TRES">3</option>
+			</select><br/>
+			<input type="submit" />
+		</form>
+	</body>
+</html>
+```
+Enum.java
+``` java
+package br.com.springmvc.modelo;
+
+public enum Enum {
+	INDEFINIDO,
+	UM,
+	DOIS,
+	TRES
+}
+```
+Bean.java
+``` java
+package br.com.springmvc.modelo;
+
+public class Bean {
+	
+	private String parametro1;
+	private String parametro2;
+	private String parametro3;
+	private Enum parametro4;
+	
+	public String getParametro1() {
+		return parametro1;
+	}
+	public void setParametro1(String parametro1) {
+		this.parametro1 = parametro1;
+	}
+	public String getParametro2() {
+		return parametro2;
+	}
+	public void setParametro2(String parametro2) {
+		this.parametro2 = parametro2;
+	}
+	public String getParametro3() {
+		return parametro3;
+	}
+	public void setParametro3(String parametro3) {
+		this.parametro3 = parametro3;
+	}
+	public Enum getParametro4() {
+		return parametro4;
+	}
+	public void setParametro4(Enum parametro4) {
+		this.parametro4 = parametro4;
+	}
+	@Override
+	public String toString() {
+		return "Bean [parametro1=" + parametro1 + ", parametro2=" + parametro2
+				+ ", parametro3=" + parametro3 + ", parametro4=" + parametro4
+				+ "]";
+	}
+}
+
+```
 
 2. Injeção de dependência
     
