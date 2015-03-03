@@ -96,23 +96,55 @@ public class Bean {
     
 spring-context.xml
 ``` xml
-    <!-- Configuração do datasource para conexão com o banco de dados -->
-	<bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName" value="org.hsqldb.jdbcDriver"></property>
-		<property name="url" value="jdbc:hsqldb:mem:."></property>
-		<property name="username" value="SA"></property>
-		<property name="password" value=""></property>
-	</bean>
+<!-- Configuração do datasource para conexão com o banco de dados -->
+<bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<property name="driverClassName" value="org.hsqldb.jdbcDriver"></property>
+	<property name="url" value="jdbc:hsqldb:mem:."></property>
+	<property name="username" value="SA"></property>
+	<property name="password" value=""></property>
+</bean>
 ```
 DAOController.java
 ``` Java
-@Autowired
-public DAOController(DAO dao) {
-	this.dao = dao;
+package br.com.springmvc.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import br.com.springmvc.dao.DAO;
+
+@Controller
+public class DAOController {
+	
+	private DAO dao;
+
+	@Autowired
+	public DAOController(DAO dao) {
+		this.dao = dao;
+	}
+	
+	@RequestMapping("/dao")
+	public String conexaoEstabelecida() {
+		System.out.println("Estabalecendo conexão com o banco de dados...");
+		dao.conexaoEstabelecida();
+		return "home";
+	}
+
 }
 ```
 DAO.java
 ``` Java
+package br.com.springmvc.dao;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 @Repository
 public class DAO {
 
@@ -126,6 +158,13 @@ public class DAO {
 			throw new RuntimeException();
 		}
 	}
+	
+	public void conexaoEstabelecida() {
+		if (connection != null) {
+			System.out.println("Conexão com o banco de dados estabelecida com sucesso.");
+		}
+	}
+	
 }
 ```
 3 - Bean validation
@@ -151,21 +190,72 @@ beanvalidation.jsp
 <html>
 	<body>
 		<h2>Exemplo de bean validation</h2>
-		<form action="beanvalidation">
+		<form action="beanValidation">
 			<form:errors path="beanValidation.parametro1"/>
-			Parametro 1 <input name="parametro1" type="text" value="parametro1"/><br/>
+			<p>Parametro 1 <input name="parametro1" type="text" value="parametro1"/></p>
 			<form:errors path="beanValidation.parametro2"/>
-			Parametro 2 <input name="parametro2" type="text" value="parametro2"/><br/>
-			Parametro 3 <input name="parametro3" type="text" value="parametro3"/><br/>
-			Parametro 4 
+			<p>Parametro 2 <input name="parametro2" type="number" value="2"/></p>
+			<p>Parametro 3 <input name="parametro3" type="text" value="01/01/2001"/></p>
+			<p>Parametro 4 
 			<select name="parametro4">
 				<option value="INDEFINIDO">Selecione</option>
 				<option value="UM">1</option>
 				<option value="DOIS">2</option>
 				<option value="TRES">3</option>
-			</select><br/>
+			</select></p>
 			<input type="submit" />
 		</form>
 	</body>
 </html>
+```
+BeanValidationController.java
+``` java
+package br.com.springmvc.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import br.com.springmvc.modelo.BeanValidation;
+
+@Controller
+public class BeanValidationController {
+	
+	@RequestMapping("/beanValidation")
+	public String execute(@Valid BeanValidation beanValidation, BindingResult result) {
+		if (result.hasErrors()) {
+			return "beanValidation";
+		}
+		System.out.println(beanValidation.toString());
+		return "beanValidation";
+	}
+}
+```
+
+
+``` java
+package br.com.springmvc.controller;
+
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import br.com.springmvc.modelo.BeanValidation;
+
+@Controller
+public class BeanValidationController {
+	
+	@RequestMapping("/beanValidation")
+	public String execute(@Valid BeanValidation beanValidation, BindingResult result) {
+		if (result.hasErrors()) {
+			return "beanValidation";
+		}
+		System.out.println(beanValidation.toString());
+		return "beanValidation";
+	}
+}
 ```
