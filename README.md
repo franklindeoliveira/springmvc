@@ -91,7 +91,7 @@ public class Bean {
 	}
 }
 ```
-
+---
 2 - Injeção de dependência
     
 spring-context.xml
@@ -167,6 +167,7 @@ public class DAO {
 	
 }
 ```
+---
 3 - Bean validation
 
 pom.xml
