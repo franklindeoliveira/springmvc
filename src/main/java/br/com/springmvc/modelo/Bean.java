@@ -1,6 +1,7 @@
 package br.com.springmvc.modelo;
 
 public class Bean {
+	
 	private String parametro1;
 	private String parametro2;
 	private String parametro3;

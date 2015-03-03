@@ -32,5 +32,10 @@
 		<property name="username" value="SA"></property>
 		<property name="password" value=""></property>
 	</bean>
-
+	
+	<!--  Configuração do properties de mensagens (messages_pt_BR.properties e messages_en_US.properties) -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="/WEB-INF/mensagens/messages" />
+	</bean>
+	
 </beans>
