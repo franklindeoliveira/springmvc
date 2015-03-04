@@ -184,7 +184,7 @@ pom.xml
 	<version>1.1.0.Final</version>
 </dependency>
 ```
-beanvalidation.jsp
+beanValidation.jsp
 ``` jsp
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
