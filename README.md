@@ -2,7 +2,7 @@
 
 1. Bind request parameter
 
-    Encapsulando requisições.
+    Encapsulando parâmetros de requisições em objetos javabean.
 
 2. Injeção de dependência
 
@@ -10,10 +10,13 @@
 
 3. Bean validation
 
-    Validação de campos utilizando annotations e resources.
+    Validação de campos utilizando annotations e carregamento de mensagens a partir de arquivos properties.
+
+4. Internacionalização de mensagens
+
+    Definindo mais de um idioma para o site.
     
 ---
-
 1 - Bind request parameter
 
 bind.jsp
@@ -91,6 +94,7 @@ public class Bean {
 	}
 }
 ```
+
 ---
 2 - Injeção de dependência
     
@@ -167,6 +171,7 @@ public class DAO {
 	
 }
 ```
+
 ---
 3 - Bean validation
 
@@ -299,3 +304,44 @@ public class BeanValidationController {
 }
 ```
 Para exibição das mensagens de erro do Bean Validation do Spring MVC basta criar um arquivo chamado ValidationMessages.properties dentro do diretório src/main/resources.
+
+---
+4 - Internacionalização de mensagens
+
+messages_pt_BR.properties
+``` properties
+olaMundo=Olá mundo
+```
+messages_en_US.properties
+``` properties
+olaMundo=Hello world
+```
+spring.context.xml
+``` xml
+<!-- Configuração para mensagens internacionalizadas.
+Para alternar entre as mensagens basta enviar uma requisição informando como parâmetro
+o 'locale', por exemplo, \?locale=pt_BR para português e \?locale=en_US para inglês -->
+<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<property name="basename" value="/WEB-INF/mensagens/messages" />
+</bean>
+<mvc:interceptors>
+<!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->
+<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+</mvc:interceptors>
+<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+```
+home.jsp
+``` jsp
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<html>
+	<body>
+		<h2><fmt:message key="olaMundo"/> Spring MVC!</h2>
+		<ul>
+			<li><a href="http://localhost:8080/springmvc/bind">GO</a> - Exemplo de bind utilizando um bean.</li>
+			<li><a href="http://localhost:8080/springmvc/dao">GO</a> - Exemplo de acesso ao banco de dados utilizando injeção de dependência.</li>
+			<li><a href="http://localhost:8080/springmvc/beanValidation">GO</a> - Exemplo de validação utilizando Bean Validation.</li>
+			<li><a href="?locale=en_US">Inglês</a> <a href="?locale=pt_BR">Português</a> - Exemplo de internacionalização de mensagens.</li>
+		</ul>
+	</body>
+</html>
+```
