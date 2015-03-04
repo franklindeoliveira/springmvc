@@ -33,9 +33,16 @@
 		<property name="password" value=""></property>
 	</bean>
 	
-	<!--  Configuração do properties de mensagens (messages_pt_BR.properties e messages_en_US.properties) -->
+	<!-- Configuração para mensagens intercionalizadas.
+		 Para alternar entre as mensagens basta enviar uma requisição informando como parâmetro
+		 o 'locale', por exemplo, \?locale=pt_BR para português e \?locale=en_US para inglês -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="/WEB-INF/mensagens/messages" />
 	</bean>
+    <mvc:interceptors>
+        <!-- Changes the locale when a 'locale' request parameter is sent; e.g. /?locale=de -->
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+    </mvc:interceptors>
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 	
 </beans>
