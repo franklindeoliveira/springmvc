@@ -14,11 +14,21 @@ public class DAO {
 
 	private Connection connection;
 
+	/**
+	 * Construtor que cria uma conexão com o banco de dados de acordo com o
+	 * <code>id</code> do datasource configurado no spring-contex.xml, que é
+	 * passado como parâmetro do <code>@Qualifier</code>. Neste exemplo
+	 * poderemos ter os parâmetros 'hsqlDatSource', 'mysqlDataSource' ou
+	 * 'mysqlDataSources'.
+	 * 
+	 * @param ds
+	 */
 	@Autowired
 	public DAO(@Qualifier("mysqlDataSource") DataSource ds) {
 		try {
 			this.connection = ds.getConnection();
-			System.out.println("Conexão com o banco de dados estabelecida com sucesso.");
+			System.out
+					.println("Conexão com o banco de dados estabelecida com sucesso.");
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
@@ -26,11 +36,12 @@ public class DAO {
 
 	public void create() {
 		try {
-			connection.prepareStatement("INSERT INTO tabela VALUES ('teste')").execute();
+			connection.prepareStatement("INSERT INTO tabela VALUES ('teste')")
+					.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void read() {
@@ -43,7 +54,10 @@ public class DAO {
 
 	public void update() {
 		try {
-			connection.prepareStatement("UPDATE tabela SET coluna1 = 'coluna-update' WHERE coluna1 = 'coluna'").execute();
+			connection
+					.prepareStatement(
+							"UPDATE tabela SET coluna1 = 'coluna-update' WHERE coluna1 = 'coluna'")
+					.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
