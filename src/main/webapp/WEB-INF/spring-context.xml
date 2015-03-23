@@ -25,15 +25,31 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	
-	<!-- Configuração do datasource para conexão com o banco de dados -->
-	<bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<!-- Configuração do datasource para conexão com o banco de dados hsql -->
+	<bean name="hsqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver"></property>
 		<property name="url" value="jdbc:hsqldb:mem:."></property>
 		<property name="username" value="SA"></property>
 		<property name="password" value=""></property>
 	</bean>
 	
-	<!-- Configuração para mensagens intercionalizadas.
+	<!-- Configuração do datasource para conexão com o banco de dados mysql -->
+	<bean name="mysqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/dbmysql"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+	
+	<!-- Configuração do datasource para conexão com o banco de dados postgres -->
+	<bean id="postgresDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="postgres"/>
+    </bean>
+	
+	<!-- Configuração para mensagens internacionalizadas.
 		 Para alternar entre as mensagens basta enviar uma requisição informando como parâmetro
 		 o 'locale', por exemplo, \?locale=pt_BR para português e \?locale=en_US para inglês -->
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

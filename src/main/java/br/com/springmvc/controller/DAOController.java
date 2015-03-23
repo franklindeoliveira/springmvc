@@ -18,8 +18,10 @@ public class DAOController {
 	
 	@RequestMapping("/dao")
 	public String conexaoEstabelecida() {
-		System.out.println("Estabalecendo conexão com o banco de dados...");
-		dao.conexaoEstabelecida();
+		dao.create();
+		dao.read();
+		dao.update();
+		dao.delete();
 		return "home";
 	}
 
