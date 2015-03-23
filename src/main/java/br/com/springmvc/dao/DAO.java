@@ -19,7 +19,7 @@ public class DAO {
 	 * <code>id</code> do datasource configurado no spring-contex.xml, que é
 	 * passado como parâmetro do <code>@Qualifier</code>. Neste exemplo
 	 * poderemos ter os parâmetros 'hsqlDatSource', 'mysqlDataSource' ou
-	 * 'mysqlDataSources'.
+	 * 'postgresDataSources'.
 	 * 
 	 * @param ds
 	 */
