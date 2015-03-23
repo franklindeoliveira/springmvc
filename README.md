@@ -97,15 +97,54 @@ public class Bean {
 
 ---
 2 - Injeção de dependência
-    
+
+pom.xml
+``` xml
+<!-- Driver do banco de dados HSQLDB -->
+<dependency>
+	<groupId>org.hsqldb</groupId>
+	<artifactId>hsqldb</artifactId>
+	<version>2.3.1</version>
+</dependency>
+
+<!-- Driver do banco de dados MySQL -->
+<dependency>
+	<groupId>mysql</groupId>
+	<artifactId>mysql-connector-java</artifactId>
+	<version>5.1.34</version>
+</dependency>
+
+<!-- Driver do banco de dados Postgres -->
+<dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>postgresql</artifactId>
+	<version>9.4-1201-jdbc41</version>
+</dependency>
+```
 spring-context.xml
 ``` xml
-<!-- Configuração do datasource para conexão com o banco de dados -->
-<bean id="mySqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+<!-- Configuração do datasource para conexão com o banco de dados hsql -->
+<bean name="hsqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 	<property name="driverClassName" value="org.hsqldb.jdbcDriver"></property>
 	<property name="url" value="jdbc:hsqldb:mem:."></property>
 	<property name="username" value="SA"></property>
 	<property name="password" value=""></property>
+</bean>
+
+<!-- Configuração do datasource para conexão com o banco de dados mysql -->
+<bean name="mysqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	<property name="url" value="jdbc:mysql://127.0.0.1:3306/dbmysql"></property>
+	<property name="username" value="root"></property>
+	<property name="password" value=""></property>
+</bean>
+
+<!-- Configuração do datasource para conexão com o banco de dados postgres -->
+<bean id="postgresDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+	<property name="driverClassName" value="org.postgresql.Driver"/>
+	<property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
+	<property name="username" value="postgres"/>
+	<property name="password" value="postgres"/>
 </bean>
 ```
 DAOController.java
@@ -130,8 +169,10 @@ public class DAOController {
 	
 	@RequestMapping("/dao")
 	public String conexaoEstabelecida() {
-		System.out.println("Estabalecendo conexão com o banco de dados...");
-		dao.conexaoEstabelecida();
+		dao.create();
+		dao.read();
+		dao.update();
+		dao.delete();
 		return "home";
 	}
 
@@ -147,29 +188,59 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class DAO {
 
 	private Connection connection;
-	
+
 	@Autowired
-	public DAO(DataSource ds) {
+	public DAO(@Qualifier("mysqlDataSource") DataSource ds) {
 		try {
 			this.connection = ds.getConnection();
+			System.out.println("Conexão com o banco de dados estabelecida com sucesso.");
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
 	}
-	
-	public void conexaoEstabelecida() {
-		if (connection != null) {
-			System.out.println("Conexão com o banco de dados estabelecida com sucesso.");
+
+	public void create() {
+		try {
+			connection.prepareStatement("INSERT INTO tabela VALUES ('teste')").execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void read() {
+		try {
+			connection.prepareStatement("SELECT * FROM tabela").executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
-	
+
+	public void update() {
+		try {
+			connection.prepareStatement("UPDATE tabela SET coluna1 = 'coluna-update' WHERE coluna1 = 'coluna'").execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delete() {
+		try {
+			connection.prepareStatement("DELETE FROM tabela").execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
+
 ```
 
 ---
