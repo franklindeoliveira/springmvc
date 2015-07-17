@@ -16,6 +16,9 @@
 	<!-- Habilita as annotations do Spring MVC -->
 	<mvc:annotation-driven />
 	
+	<!-- Configura o Spring MVC para acessar conteúdo estático -->
+	<mvc:default-servlet-handler />
+	
 	<!-- Definição da view a ser carregada no contexto raiz da aplicação -->
 	<mvc:view-controller path="/" view-name="home"/>
 	
