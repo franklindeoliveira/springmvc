@@ -1,0 +1,3 @@
+[submodule "springmvc-thymeleaf"]
+	path = repo-module1
+	url = https://github.com/franklindeoliveira/springmvc-thymeleaf.git
